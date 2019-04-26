@@ -24,6 +24,17 @@ $(document).ready(function () {
     var tweetList = [];
     var nextTweetUrl;
 
+    function updateHashLinks() {
+        $(".media-body").each(function (data) {
+            var hashtagRegex = /(^|\s)#([\w\d-]+)/g;
+            var newText = $(this).html().replace(hashtagRegex, "$1<a href='/tag/$2/'>#$2</a>")
+            $(this).html(newText)
+            // create hashtag
+
+        })
+
+    }
+
     function attachTweet(tweetValue, preprend) {
         var dateDisplay = tweetValue.date_display;
         var tweetContent = tweetValue.content;
@@ -70,8 +81,8 @@ $(document).ready(function () {
             }else {
                 $('#loadmore').css('display', 'none')
             }
-            nextTweetUrl = data.next
             parseTweets()
+            updateHashLinks()
         },
         error: function (data) {
             console.log('error')
@@ -126,6 +137,7 @@ $(document).ready(function () {
                 success: function (data) {
                     this_.find("input[type=text], textarea").val("")
                     attachTweet(data, true)
+                    updateHashLinks()
                 },
                 error: function (data) {
                     console.log('error')

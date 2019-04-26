@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="837941b9-d1a6-409c-b145-0cd04d0084fb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tweeter/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweeter/accounts/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tweeter/accounts/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweeter/accounts/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tweeter/tweets/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweeter/tweets/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tweeter/tweets/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweeter/tweets/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweeter/tweets/templates/tweets/tweet_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/tweeter/tweets/templates/tweets/tweet_list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,11 +20,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tweeter/tweets/api/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="777">
-              <caret line="21" column="64" lean-forward="true" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
+            <state relative-caret-position="333">
+              <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tweeter/tweets/templates/tweets/tweet_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="370">
+              <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -36,7 +42,7 @@
         <entry file="file://$PROJECT_DIR$/tweeter/accounts/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="436">
-              <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -56,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tweeter/accounts/templates/accounts/user_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="8" column="36" lean-forward="true" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+            <state relative-caret-position="296">
+              <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -79,12 +85,13 @@
         <option value="$PROJECT_DIR$/tweeter/accounts/templates/accounts/user_detail.html" />
         <option value="$PROJECT_DIR$/tweeter/tweets/tests.py" />
         <option value="$PROJECT_DIR$/tweeter/accounts/tests.py" />
-        <option value="$PROJECT_DIR$/tweeter/tweets/api/views.py" />
         <option value="$PROJECT_DIR$/tweeter/accounts/models.py" />
+        <option value="$PROJECT_DIR$/tweeter/tweets/api/views.py" />
+        <option value="$PROJECT_DIR$/tweeter/tweets/templates/tweets/tweet_list.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="width" value="799" />
     <option name="height" value="857" />
   </component>
@@ -138,7 +145,15 @@
               <item name="my_twitter" type="462c0819:PsiDirectoryNode" />
               <item name="tweeter" type="462c0819:PsiDirectoryNode" />
               <item name="tweets" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="my_twitter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="my_twitter" type="462c0819:PsiDirectoryNode" />
+              <item name="tweeter" type="462c0819:PsiDirectoryNode" />
+              <item name="tweets" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="tweets" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -242,15 +257,15 @@
       <workItem from="1556012938342" duration="4921000" />
       <workItem from="1556017863872" duration="2903000" />
       <workItem from="1556270314673" duration="51000" />
-      <workItem from="1556278427742" duration="7424000" />
+      <workItem from="1556278427742" duration="9704000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15299000" />
+    <option name="totallyTimeSpent" value="17579000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-1" width="1600" height="860" extended-state="6" />
+    <frame x="0" y="-1" width="1600" height="860" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14478764" />
@@ -468,20 +483,10 @@
     <entry file="file://$PROJECT_DIR$/tweeter/accounts/apps.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/tweeter/tweets/api/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="777">
-          <caret line="21" column="64" lean-forward="true" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tweeter/accounts/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="436">
-          <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -500,8 +505,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tweeter/accounts/templates/accounts/user_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="8" column="36" lean-forward="true" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+        <state relative-caret-position="296">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tweeter/tweets/api/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tweeter/tweets/templates/tweets/tweet_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
         </state>
       </provider>
     </entry>
