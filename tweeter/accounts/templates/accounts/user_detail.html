@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="text-center">
-    <div class="col-sm-3 col-xs-12" style="background-color: red">
+    <div class="col-sm-3 col-xs-12">
         <h1>{{ object.username }} </h1>
+        <hr/>
+        <p>Followers : {{ object.followed_by.all.count }}</p>
+        <p><a class="btn btn-link" href="{{ object.profile.get_follow_url }}">
+          {% if following %}Unfollow{% else %}Follow{% endif %}
+        </a></p>
     </div>
     <div class="col-sm-9 col-xs-12">
         <h1>Tweets</h1>
@@ -12,8 +17,8 @@
 
 
         <hr/>
-        <h1>Following</h1>
-        {% for user in object.profile.following.all  %}
+        <h1>Following <small>{{ object.profile.get_following.count }}</small></h1>
+        {% for user in object.profile.get_following  %}
         <a href="/{{ user.username }}"> {{ user.username }}</a> <br/>
         {% empty %}
         <h4>Not following any user</h4>
