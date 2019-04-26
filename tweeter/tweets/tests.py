@@ -3,11 +3,15 @@ from django.test import TestCase
 # Create your tests here.
 from django.urls import reverse
 from .models import Tweet
+from django.contrib.auth import get_user_model
+# Create your tests here.
+
+User = get_user_model()
 
 
 class TweetModelTestCase(TestCase):
     def setUp(self):
-        some_random_user = User.objects.create(username='nurs2222')
+        some_random_user = User.objects.create(username='nurs222222')
 
     def test_tweet_item(self):
         obj = Tweet.objects.create(
