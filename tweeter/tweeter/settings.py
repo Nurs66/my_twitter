@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'templates',
     'rest_framework',
     'crispy_forms',
+    'hashtags',
     'tweets',
     'accounts',
 ]

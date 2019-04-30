@@ -1,6 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, get_object_or_404
+from django.views import View
 from django.views.generic import (
 	DetailView,
 	DeleteView,
@@ -11,6 +14,15 @@ from django.views.generic import (
 from .forms import TweetModelForm
 from .models import Tweet
 from .mixins import FormUserNeededMixin, UserOwnerMixin
+
+
+class RetweetView(View):
+	def get(self, request, pk, *args, **kwargs):
+		tweet = get_object_or_404(Tweet, pk=pk)
+		if request.user.is_authenticated:
+			new_tweet = Tweet.objects.retweet(request.user, tweet)
+			return HttpResponseRedirect("/")
+		return HttpResponseRedirect(tweet.get_absolute_url())
 
 
 # Create
