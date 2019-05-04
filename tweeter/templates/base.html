@@ -1,59 +1,260 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-   <!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title> {% block title %}Twitter{% endblock title %}</title>
-    <style>
-      .red-color {
-        color: red;
-      }
-      .grey-color {
-        color: #ccc;
-      }
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 
-    </style>
-  </head>
-  <body>
+  <title> {% block title %}Twitter{% endblock title %}</title>
+  <style>
+    .red-color {
+      color: red;
+    }
+
+    .grey-color {
+      color: #ccc;
+    }
+  </style>
+</head>
+
+<body>
 
   {% include "navbar.html" %}
-    <div class="container mt-5">
+  <div class="container mt-5">
 
-        {% block content %}
-        {% endblock content %}
+    {% block content %}
+    {% endblock content %}
 
-    </div>
+  </div>
 
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    {% block script %}{% endblock script %}
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
-    $(document).ready(function () {
+    function getParameterByName(name, url) {
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function loadTweetContainer(tweetContainerID) {
+      var query = getParameterByName('q')
+      var tweetList = [];
+      var nextTweetUrl;
+      var tweetContainer;
+      console.log(tweetContainerID)
+      if (tweetContainerID){
+        tweetContainer = $("#" + tweetContainerID)
+
+      }else{
+        tweetContainer = $("#tweet-container")
+      }
+      var initialURL = tweetContainer.attr("data-url") || "/api/tweet/";
+      console.log(initialURL)
+
+
+      $(document.body).on("click", ".retweetBtn", function(e) {
+
+        e.preventDefault()
+        console.log("clicked")
+        var url = "/api" + $(this).attr('href')
+
+        $.ajax({
+          method: "GET",
+          url: url,
+          success: function(data) {
+            console.log(data)
+            // if username API path.. let's ignore
+            attachTweet(data, true)
+            updateHashLinks()
+          },
+          error: function(data) {
+            console.log("error")
+            console.log(data)
+
+          }
+        })
+      });
+
+      function updateHashLinks() {
+        $(".media-body").each(function(data) {
+          var hashtagRegex = /(^|\s)#([\w\d-]+)/g;
+          var usernameRegex = /(^|\s)@([\w\d-]+)/g;
+          var currentHtml = $(this).html()
+          var newText
+          newText = currentHtml.replace(hashtagRegex, "$1<a href='/tag/$2/'>#$2</a>")
+          newText = newText.replace(usernameRegex, "$1 @<a href='/$2/'>$2</a>")
+          $(this).html(newText)
+
+        })
+
+      }
+
+      function attachTweet(tweetValue, preprend, retweet) {
+        var dateDisplay = tweetValue.date_display;
+        var tweetContent = tweetValue.content;
+        var tweetUser = tweetValue.user;
+        var tweetFormatteedHtml;
+        if (retweet && tweetValue.parent) {
+          // retweet
+          var mainTweet = tweetValue.parent
+          tweetFormatteedHtml = "<div class=\"media mt-3\"><div class=\"media-body\"><span class='grey-color'>Retweet via " + tweetUser.username + " on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via <a href='" + mainTweet.user
+            .url + "'> " + mainTweet.user.username + "</a> | " + mainTweet.date_display + " | " + "<a href='/tweet/" + mainTweet.id + "'>View</a> | " + "<a class='retweetBtn' href='/tweet/" + tweetValue.id + "/retweet/'>Retweet</a>" +
+            "</div></div> <hr/>"
+        } else {
+          // fresh tweet
+          tweetFormatteedHtml = "<div class=\"media mt-3\"><div class=\"media-body\">" + tweetContent + "<br/> via <a href='" + tweetUser.url + "'> " + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a class='retweetBtn' href='/tweet/" +
+            tweetValue.id + "'>View</a> | " + "<a href='/tweet/" + tweetValue.id + "/retweet/'>Retweet</a>" + "</div></div> <hr/>"
+        }
+        if (preprend == true) {
+          tweetContainer.prepend(tweetFormatteedHtml)
+        } else {
+          tweetContainer.append(tweetFormatteedHtml)
+        }
+
+      }
+
+      function parseTweets() {
+        if (tweetList == 0) {
+          tweetContainer.text('Not found')
+        } else {
+          // tweets exits, parse and display them
+          $.each(tweetList, function(key, value) {
+            var tweetKey = key;
+            if (value.parent) {
+              attachTweet(value, false, true)
+            } else {
+              attachTweet(value)
+            }
+          })
+        }
+      }
+
+      function fetchTweets(url) {
+        console.log("fetching")
+        var fecthUrl;
+        if (!url) {
+          fecthUrl = initialURL
+        } else {
+          fecthUrl = url
+        }
+        $.ajax({
+          url: fecthUrl,
+          data: {
+            "q": query
+          },
+          method: 'GET',
+          success: function(data) {
+            console.log(data)
+            tweetList = data.results
+            if (data.next) {
+              nextTweetUrl = data.next
+            } else {
+              $('#loadmore').css('display', 'none')
+            }
+            parseTweets()
+            updateHashLinks()
+          },
+          error: function(data) {
+            console.log('error')
+            console.log(data)
+          }
+        })
+      }
+
+      fetchTweets()
+
+      $('#loadmore').click(function(event) {
+        event.preventDefault()
+        if (nextTweetUrl) {
+          fetchTweets(nextTweetUrl)
+        }
+      });
+
+      var charsStart = 140;
+      var charsCurrent = 0;
+
+      $("#tweet-form").append("<span id='tweetCharsLeft'>" + charsStart + "</span>")
+
+      $("#tweet-form textarea").keyup(function(event) {
+        // console.log(event.key, event.timeStamp)
+        var tweetValue = $(this).val()
+        charsCurrent = charsStart - tweetValue.length
+        var spanChars = $('#tweetCharsLeft')
+        spanChars.text(charsCurrent)
+
+        if (charsCurrent > 0) {
+          spanChars.removeClass("grey-color")
+          spanChars.removeClass("red-color")
+        } else if (charsCurrent == 0) {
+          spanChars.removeClass("red-color")
+          spanChars.addClass("grey-color")
+        } else if (charsCurrent < 0) {
+          spanChars.removeClass("grey-color")
+          spanChars.addClass("red-color")
+        }
+
+      })
+
+      $("#tweet-form").submit(function(event) {
+        event.preventDefault()
+        var this_ = $(this)
+        var formData = this_.serialize()
+        if (charsCurrent >= 0) {
+          $.ajax({
+            url: "/api/tweet/create/",
+            data: formData,
+            method: 'POST',
+            success: function(data) {
+              this_.find("input[type=text], textarea").val("")
+              attachTweet(data, true)
+              updateHashLinks()
+            },
+            error: function(data) {
+              console.log('error')
+              console.log(data.statusText)
+              console.log(data.status)
+            }
+          })
+        } else {
+          console.log("Cannot send, tweet too long.")
+        }
+      })
+    }
+  </script>
+  {% block script %}{% endblock script %}
+  <script>
+    $(document).ready(function() {
       var typingTimer;
       var doneInterval = 200; // in ms
       var searchInput = $('#navbar-search-form input[type=text]');
       var searchQuery;
 
-      searchInput.keyup(function (event) {
+      searchInput.keyup(function(event) {
         searchQuery = $(this).val()
         clearTimeout(typingTimer)
         typingTimer = setTimeout(doneSearchTyping, doneInterval)
       })
-      searchInput.keydown(function (event) {
+      searchInput.keydown(function(event) {
         clearTimeout(typingTimer)
       })
-      function  doneSearchTyping() {
-        if (searchQuery){
+
+      function doneSearchTyping() {
+        if (searchQuery) {
           // do searching
           var url = '/tweet/search/?q=' + searchQuery
           document.location.href = url;
@@ -62,8 +263,9 @@
       }
     })
   </script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
-  </body>
+</body>
+
 </html>

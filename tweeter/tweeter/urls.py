@@ -26,10 +26,11 @@ from hashtags.views import HashTagView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TweetListView.as_view(), name='home'),
-    path('', include(('accounts.urls', 'profile'), namespace='profiles')),
     path('tag/<hashtag>/', HashTagView.as_view(), name='hashtag'),
     path('tweet/', include(('tweets.urls', 'tweet'), namespace='tweet')),
-    path('api/tweet/', include(('tweets.api.urls', 'tweet'), namespace='tweet-api'))
+    path('api/tweet/', include(('tweets.api.urls', 'tweet-api'), namespace='tweet-api')),
+    path('api/', include(('accounts.api.urls', 'profile-api'), namespace='profile-api')),
+    path('', include(('accounts.urls', 'profiles'), namespace='profiles')),
 ]
 
 

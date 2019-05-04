@@ -1,7 +1,12 @@
+import re
+from django.db.models.signals import post_save
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from .validators import validate_content
+from django.utils import timezone
+from hashtags.signals import parsed_hashtags
+
 # Create your models here.
 
 
@@ -11,6 +16,13 @@ class TweetManager(models.Manager):
 			og_parant = parent_obj.parent
 		else:
 			og_parant = parent_obj
+		qs = self.get_queryset().filter(user=user, parent=og_parant).filter(
+			timestamp__year=timezone.now().year,
+			timestamp__month=timezone.now().month,
+			timestamp__day=timezone.now().day,
+		)
+		if qs.exists():
+			return None
 
 		obj = self.model(
 			parent=parent_obj,
@@ -37,3 +49,19 @@ class Tweet(models.Model):
 
 	class Meta:
 			ordering = ['-timestamp']
+
+
+def tweet_save_receiver(sender, instance, created, *args, **kwargs):
+	if created and not instance.parent:
+		# notify a user
+		user_regex = r'@(<username>/)'
+		username = re.search(user_regex, instance.content)
+		# send notification to user here.
+
+		hash_regex = r'#(<hashtag>/)'
+		hashtags = re.search(hash_regex, instance.content)
+		parsed_hashtags.send(sender=instance.__class__, hashtags_list=hashtags)
+	# send hashtag signal to user here.
+
+
+post_save.connect(tweet_save_receiver, sender=Tweet)
