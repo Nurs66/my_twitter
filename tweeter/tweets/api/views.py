@@ -38,6 +38,7 @@ class TweetListAPIView(generics.ListAPIView):
 
     def get_queryset(self, *args, **kwargs):
         requested_user = self.kwargs.get('username')
+
         if requested_user:
             qs = Tweet.objects.filter(user__username=requested_user).order_by('-timestamp')
         else:
@@ -46,6 +47,20 @@ class TweetListAPIView(generics.ListAPIView):
             qs2 = Tweet.objects.filter(user=self.request.user)
             qs = (qs1 | qs2).distinct().order_by('-timestamp')
 
+        query = self.request.GET.get("q", None)
+        if query is not None:
+            qs = qs.filter(
+                Q(content__icontains=query) |
+                Q(user__username__icontains=query)
+            )
+        return qs
+
+class SearchAPIView(generics.ListAPIView):
+    serializer_class = TweetModelSerializer
+    pagination_class = StandardResultsPagination
+
+    def get_queryset(self, *args, **kwargs):
+        qs = Tweeet.object.all().order_by("-timestamp")
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(

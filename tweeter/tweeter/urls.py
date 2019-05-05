@@ -29,7 +29,7 @@ urlpatterns = [
     path('tag/<hashtag>/', HashTagView.as_view(), name='hashtag'),
     path('tweet/', include(('tweets.urls', 'tweet'), namespace='tweet')),
     path('api/tweet/', include(('tweets.api.urls', 'tweet-api'), namespace='tweet-api')),
-    path('api/', include(('accounts.api.urls', 'profile-api'), namespace='profile-api')),
+    path('api/', include(('accounts.api.urls', 'profiles-api'), namespace='profiles-api')),
     path('', include(('accounts.urls', 'profiles'), namespace='profiles')),
 ]
 

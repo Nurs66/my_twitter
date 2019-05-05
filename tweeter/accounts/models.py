@@ -51,10 +51,10 @@ class UserProfile(models.Model):
         return users.exclude(username=self.user.username)
 
     def get_follow_url(self):
-        return reverse_lazy('profile:follow', kwargs={"username": self.user.username})
+        return reverse_lazy('profiles:follow', kwargs={"username": self.user.username})
 
     def get_absolute_url(self):
-        return reverse_lazy('profile:detail', kwargs={"username": self.user.username})
+        return reverse_lazy('profiles:detail', kwargs={"username": self.user.username})
 
 # dosy = User.objects.first()
 # User.objects.get_or_create()

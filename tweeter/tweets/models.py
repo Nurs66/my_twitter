@@ -61,7 +61,7 @@ def tweet_save_receiver(sender, instance, created, *args, **kwargs):
 		hash_regex = r'#(<hashtag>/)'
 		hashtags = re.search(hash_regex, instance.content)
 		parsed_hashtags.send(sender=instance.__class__, hashtags_list=hashtags)
-	# send hashtag signal to user here.
+	    # send hashtag signal to user here.
 
 
 post_save.connect(tweet_save_receiver, sender=Tweet)
