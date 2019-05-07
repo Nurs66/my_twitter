@@ -1,6 +1,18 @@
 {% extends "base.html" %}
+<style>
+#tweet-container {
+
+}
+</style>
 
 {% block content %}
+{% block script %}
+<script>
+$(document).ready(function(){
+  loadTweetContainer("tweet-container")
+});
+</script>
+{% endblock script %}
 
 <div class="row">
       <div class="col-sm-3 col-xs-12 ">

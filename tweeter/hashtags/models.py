@@ -19,10 +19,13 @@ class HashTag(models.Model):
         return Tweet.objects.filter(content__icontains='#' + self.tag)
 
 
+
 def parsed_hashtags_receiver(sender, hashtag_list, *args, **kwargs):
+    print(hashtag_list)
+    print(type(hashtag_list))
     if len(hashtag_list) > 0:
         for tag_var in hashtag_list:
             new_tag, create = HashTag.objects.get_or_create(tag=tag_var)
 
 
-parsed_hashtags.connect(parsed_hashtags_receiver)
+parsed_hashtags.connect(HashTag, parsed_hashtags_receiver)

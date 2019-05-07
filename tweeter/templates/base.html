@@ -26,6 +26,7 @@
   <div class="container mt-5">
 
     {% block content %}
+
     {% endblock content %}
 
   </div>
@@ -34,25 +35,25 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>
     function getParameterByName(name, url) {
       if (!url) {
-        url = window.location.href;
+        url = window.location.href
       }
       name = name.replace(/[\[\]]/g, "\\$&");
       var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
+        results = regex.exec(url)
+      if (!results) return null
+      if (!results[2]) return ''
+      return decodeURIComponent(results[2].replace(/\+/g, " "))
     }
 
-    function loadTweetContainer(tweetContainerID) {
+    function loadTweetContainer(tweetContainerID,   ) {
       var query = getParameterByName('q')
-      var tweetList = [];
-      var nextTweetUrl;
-      var tweetContainer;
+      var tweetList = []
+      var nextTweetUrl
+      var tweetContainer
       console.log(tweetContainerID)
       if (tweetContainerID){
         tweetContainer = $("#" + tweetContainerID)
@@ -60,7 +61,7 @@
       }else{
         tweetContainer = $("#tweet-container")
       }
-      var initialURL = tweetContainer.attr("data-url") || "/api/tweet/";
+      var initialURL = tweetContainer.attr("data-url") || "/api/tweet/"
       console.log(initialURL)
 
 
@@ -76,8 +77,11 @@
           success: function(data) {
             console.log(data)
             // if username API path.. let's ignore
-            attachTweet(data, true)
-            updateHashLinks()
+            if (initialURL == "/api/tweet/"){
+              attachTweet(data, true, true)
+              updateHashLinks()
+            }
+
           },
           error: function(data) {
             console.log("error")
@@ -92,9 +96,9 @@
           var hashtagRegex = /(^|\s)#([\w\d-]+)/g;
           var usernameRegex = /(^|\s)@([\w\d-]+)/g;
           var currentHtml = $(this).html()
-          var newText;
-          newText = currentHtml.replace(hashtagRegex, "$1<a href='/tag/$2/'>#$2</a>");
-          newText = newText.replace(usernameRegex, "$1 @<a href='/$2/'>$2</a>");
+          var newText
+          newText = currentHtml.replace(hashtagRegex, "$1<a href='/tag/$2/'>#$2</a>")
+          newText = newText.replace(usernameRegex, "$1 @<a href='/$2/'>$2</a>")
           $(this).html(newText)
 
         })
@@ -102,25 +106,25 @@
       }
 
       function attachTweet(tweetValue, preprend, retweet) {
-        var dateDisplay = tweetValue.date_display;
-        var tweetContent = tweetValue.content;
-        var tweetUser = tweetValue.user;
-        var tweetFormatteedHtml;
+        var dateDisplay = tweetValue.date_display
+        var tweetContent = tweetValue.content
+        var tweetUser = tweetValue.user
+        var tweetFormattedHtml
         if (retweet && tweetValue.parent) {
           // retweet
           var mainTweet = tweetValue.parent
-          tweetFormatteedHtml = "<div class=\"media mt-3\"><div class=\"media-body\"><span class='grey-color'>Retweet via " + tweetUser.username + " on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via <a href='" + mainTweet.user.url +
+          tweetFormattedHtml = "<div class=\"media mt-3\"><div class=\"media-body\"><span class='grey-color'>Retweet via " + tweetUser.username + " on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via <a href='" + mainTweet.user.url +
                   "'> " + mainTweet.user.username + "</a> | " + mainTweet.date_display + " | " + "<a href='/tweet/" + mainTweet.id + "'>View</a> | " + "<a class='retweetBtn' href='/tweet/" + tweetValue.id + "/retweet/'>Retweet</a>" +
             "</div></div> <hr/>"
         } else {
           // fresh tweet
-          tweetFormatteedHtml = "<div class=\"media mt-3\"><div class=\"media-body\">" + tweetContent + "<br/> via <a href='" + tweetUser.url + "'> " + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a class='retweetBtn' href='/tweet/" +
+          tweetFormattedHtml = "<div class=\"media mt-3\"><div class=\"media-body\">" + tweetContent + "<br/> via <a href='" + tweetUser.url + "'> " + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a class='retweetBtn' href='/tweet/" +
             tweetValue.id + "'>View</a> | " + "<a href='/tweet/" + tweetValue.id + "/retweet/'>Retweet</a>" + "</div></div> <hr/>"
         }
         if (preprend == true) {
-          tweetContainer.prepend(tweetFormatteedHtml)
+          tweetContainer.prepend(tweetFormattedHtml)
         } else {
-          tweetContainer.append(tweetFormatteedHtml)
+          tweetContainer.append(tweetFormattedHtml)
         }
 
       }
@@ -189,19 +193,19 @@
 
       $("#tweet-form textarea").keyup(function(event) {
         // console.log(event.key, event.timeStamp)
-        var tweetValue = $(this).val();
-        charsCurrent = charsStart - tweetValue.length;
-        var spanChars = $('#tweetCharsLeft');
-        spanChars.text(charsCurrent);
+        var tweetValue = $(this).val()
+        charsCurrent = charsStart - tweetValue.length
+        var spanChars = $(this).parent().parent().parent().find("span.tweetCharsLeft")
+        spanChars.text(charsCurrent)
 
         if (charsCurrent > 0) {
-          spanChars.removeClass("grey-color");
+          spanChars.removeClass("grey-color")
           spanChars.removeClass("red-color")
         } else if (charsCurrent == 0) {
-          spanChars.removeClass("red-color");
+          spanChars.removeClass("red-color")
           spanChars.addClass("grey-color")
         } else if (charsCurrent < 0) {
-          spanChars.removeClass("grey-color");
+          spanChars.removeClass("grey-color")
           spanChars.addClass("red-color")
         }
 
@@ -223,7 +227,7 @@
             },
             error: function(data) {
               console.log('error');
-              console.log(data.statusText);
+              console.log(data.statusText)
               console.log(data.status)
             }
           })
@@ -233,12 +237,13 @@
       })
     }
   </script>
-  {% block script %}
-  {% endblock script %}
+
+     {% block script %}{% endblock script %}
+
   <script>
     $(document).ready(function() {
       var typingTimer;
-      var doneInterval = 200; // in ms
+      var doneInterval = 800; // in ms
       var searchInput = $('#navbar-search-form input[type=text]');
       var searchQuery;
 
@@ -254,16 +259,16 @@
       function doneSearchTyping() {
         if (searchQuery) {
           // do searching
-          var url = '/tweet/search/?q=' + searchQuery;
-          document.location.href = url;
+          var url = '/tweet/search/?q=' + searchQuery
+          document.location.href = url
 
         }
       }
     })
   </script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> &ndash;&gt;-->
 </body>
 
 </html>
