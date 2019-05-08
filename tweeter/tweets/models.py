@@ -11,12 +11,15 @@ from hashtags.signals import parsed_hashtags
 
 
 class TweetManager(models.Manager):
-	def retweet(self,  user, parent_obj):
+	def retweet(self, user, parent_obj):
 		if parent_obj.parent:
-			og_parant = parent_obj.parent
+			og_parent = parent_obj.parent
 		else:
-			og_parant = parent_obj
-		qs = self.get_queryset().filter(user=user, parent=og_parant).filter(
+			og_parent = parent_obj
+
+		qs = self.get_queryset().filter(
+			user=user, parent=og_parent
+		).filter(
 			timestamp__year=timezone.now().year,
 			timestamp__month=timezone.now().month,
 			timestamp__day=timezone.now().day,
@@ -31,6 +34,7 @@ class TweetManager(models.Manager):
 			content=parent_obj.content,
 		)
 		obj.save()
+
 		return obj
 
 	def like_toggle(self, user, tweet_obj):
@@ -49,6 +53,7 @@ class Tweet(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	content = models.CharField(max_length=140, validators=[validate_content])
 	liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='liked')
+	reply = models.BooleanField(verbose_name='Is a reply?', default=False)
 	updated = models.DateTimeField(auto_now=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	objects = TweetManager()
