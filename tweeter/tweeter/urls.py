@@ -22,15 +22,17 @@ from .views import home, SearchView
 from tweets.views import TweetListView
 from hashtags.views import HashTagView
 from tweets.api.views import SearchTweetAPIView
+from hashtags.api.views import TagTweetAPIView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TweetListView.as_view(), name='home'),
     path('search/', SearchView.as_view(), name='search'),
-    path('tag/<hashtag>/', HashTagView.as_view(), name='hashtag'),
+    path('tags/<hashtag>/', HashTagView.as_view(), name='hashtag'),
     path('tweet/', include(('tweets.urls', 'tweet'), namespace='tweet')),
     path('api/tweet/', include(('tweets.api.urls', 'tweet-api'), namespace='tweet-api')),
+    path('api/tags/<hashtag>/', TagTweetAPIView.as_view(), name='tag-tweet-api'),
     path('api/search/', SearchTweetAPIView.as_view(), name='search-api'),
     path('api/', include(('accounts.api.urls', 'profiles-api'), namespace='profiles-api')),
     path('', include(('accounts.urls', 'profiles'), namespace='profiles')),
