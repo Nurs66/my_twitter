@@ -23,7 +23,7 @@ from tweets.views import TweetListView
 from hashtags.views import HashTagView
 from tweets.api.views import SearchTweetAPIView
 from hashtags.api.views import TagTweetAPIView
-
+from accounts.views import UserRegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +34,8 @@ urlpatterns = [
     path('api/tweet/', include(('tweets.api.urls', 'tweet-api'), namespace='tweet-api')),
     path('api/tags/<hashtag>/', TagTweetAPIView.as_view(), name='tag-tweet-api'),
     path('api/search/', SearchTweetAPIView.as_view(), name='search-api'),
+    path('register/', UserRegisterView.as_view(), name='register'),
+    path('', include('django.contrib.auth.urls')),
     path('api/', include(('accounts.api.urls', 'profiles-api'), namespace='profiles-api')),
     path('', include(('accounts.urls', 'profiles'), namespace='profiles')),
 ]
