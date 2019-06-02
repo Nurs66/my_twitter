@@ -19,32 +19,43 @@ $(document).ready(function(){
 {% block content %}
 
 
-    <div class='row'>
-        <div class='col-sm-3 col-xs-12'>
+<!-- The Grid -->
+  <div class="w3-row">
+    <!-- Left Column -->
+    <div class="w3-col m3">
+      <!-- Profile -->
+      <div class="w3-card w3-round w3-white">
+        <div class="w3-container">
         <h1>{{ request.user }}</h1>
-        <hr/>
-         <br/>
-        <p class='lead'>Recommended Users</p>
-        {% recommended request.user %}
+<!--         <p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>-->
+         <hr>
+         <p class='lead'>Recommended Users</p>
+           {% recommended request.user %}
         </div>
-
-        <div class='col-sm-9 '>
-             {% if not request.GET.q %}
-                <div class=''>
-
-                    {% include "tweets/form.html" with form=create_form action_url=create_url btn_title='Tweet' form_class='tweet-form' %}
-
-                </div>
-                <hr/>
-            {% endif %}
-
-          <div id='tweet-container' data-url='/api/tweet/'>
-
-          </div>
-          <a href='#' id='loadmore'>Load More Tweets</a>
-
-
-        </div>
+      </div>
+      <br>
+    <!-- End Left Column -->
     </div>
+
+
+        <div class="w3-col m7">
+
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
+              {% if not request.GET.q %}
+               <div class="form-group">
+                {% include "tweets/form.html" with form=create_form action_url=create_url btn_title='Tweet' form_class='tweet-form' %}
+               </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='tweet-container' data-url='/api/tweet/'>
+
+      </div>
+      <a href='#' id='loadmore'>Load More Tweets</a>
 
 {% endblock content %}
