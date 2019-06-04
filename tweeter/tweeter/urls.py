@@ -38,6 +38,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('api/', include(('accounts.api.urls', 'profiles-api'), namespace='profiles-api')),
     path('', include(('accounts.urls', 'profiles'), namespace='profiles')),
+    path('chat/', include('chat.urls')),
 ]
 
 

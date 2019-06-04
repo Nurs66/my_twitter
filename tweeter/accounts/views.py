@@ -12,7 +12,7 @@ User = get_user_model()
 class UserRegisterView(FormView):
     template_name = 'accounts/user_register_form.html'
     form_class = UserRegisterForm
-    success_url = '/login'
+    success_url = '/'
 
     def form_valid(self, form):
         username = form.cleaned_data.get("username")

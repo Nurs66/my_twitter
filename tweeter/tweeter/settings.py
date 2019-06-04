@@ -25,7 +25,7 @@ SECRET_KEY = '_j-xld*jhs!%*^6)7!&c2fiqu^2(ef7(^!5$lr72(li!&!(id='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'chat',
+    'channels',
     'templates',
     'rest_framework',
     'crispy_forms',
@@ -75,6 +77,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tweeter.wsgi.application'
+ASGI_APPLICATION = 'tweeter.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+    }
+}
+
 
 
 # Database
