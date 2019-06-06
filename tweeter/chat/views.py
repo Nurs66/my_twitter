@@ -12,3 +12,14 @@ def room(request, room_name):
         'room_name_json': mark_safe(json.dumps(room_name)),
         'username': mark_safe(json.dumps(request.user.username)),
     })
+
+
+# a=[]
+# def like(request):
+#
+#     if request.method == "POST":
+#
+#         a.append(1)
+#
+#     return render(request, 'like.html', {})
+# print(a)
