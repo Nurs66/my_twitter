@@ -25,7 +25,7 @@ SECRET_KEY = '_j-xld*jhs!%*^6)7!&c2fiqu^2(ef7(^!5$lr72(li!&!(id='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'newtweet.ml ', '157.230.105.50']
 
 
 # Application definition
