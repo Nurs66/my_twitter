@@ -28,7 +28,7 @@
           {% for user in object.profile.get_following  %}
           <a href="/{{ user.username }}"> {{ user.username }}</a> <br />
           {% empty %}
-          <h4>Not following any user</h4>
+          <h5>Not following any user</h5>
           {% endfor %}
 
           <hr />
@@ -36,13 +36,13 @@
           {% for profile in object.followed_by.all  %}
           <a href="/{{ profile.user.username }}"> {{ profile.user.username }}</a> <br />
           {% empty %}
-          <h4>Not followed by any users</h4>
+          <h5>Not followed by any users</h5>
           {% endfor %}
         </div>
       </div>
     </div>
 
-    <div class="w3-col m7">
+    <div class="w3-col m7 mt-5">
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">

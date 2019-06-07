@@ -6,5 +6,5 @@ from . import views
 
 urlpatterns = [
     re_path(r'^(?P<room_name>[^/]+)/$', views.room, name='room'),
-    path('', views.index, name='index'),
+    path('chat/kg/', views.index, name='index'),
 ]
