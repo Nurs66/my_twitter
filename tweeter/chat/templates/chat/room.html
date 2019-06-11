@@ -18,19 +18,23 @@
 
 <body>
   <div id="frame">
-    <div class="content">
-      <div class="contact-profile">
-        <img src="https://it-academy.kg/static/front/assets/images/header_dropdown_logo.png" alt="" />
-        <p>{{ username }}</p>
+    <div id="sidepanel" style="background: #348498">
+      <div id="profile">
+        <div class="wrap">
+          <img src="https://it-academy.kg/static/front/assets/images/header_dropdown_logo.png" alt="" />
+           <h4>{{ username }}</h4>
+        </div>
       </div>
+    </div>
+    <div class="content">
       <div class="messages">
         <ul id="chat-log">
           {% comment %} <li class="sent">
-            <img src="https://it-academy.kg/static/front/assets/images/header_dropdown_logo.png" alt="" />
+            <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
             <p>How the hell am I supposed to get a jury to believe you when I am not even sure that I do?!</p>
           </li>
           <li class="replies">
-            <img src="https://it-academy.kg/static/front/assets/images/header_dropdown_logo.png" alt="" />
+            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
             <p>When you're backed against the wall, break the god damn thing down.</p>
           </li> {% endcomment %}
         </ul>
@@ -38,7 +42,6 @@
       <div class="message-input">
         <div class="wrap">
         <input id="chat-message-input" type="text" placeholder="Write your message..." />
-        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
         <button id="chat-message-submit" class="submit">
           <i class="fa fa-paper-plane" aria-hidden="true"></i>
         </button>
@@ -95,7 +98,7 @@
       var imgTag = document.createElement('img');
       var pTag = document.createElement('p');
       pTag.textContent = data.content;
-      imgTag.src = 'http://emilcarlsson.se/assets/mikeross.png';
+      imgTag.src = 'https://it-academy.kg/static/front/assets/images/header_dropdown_logo.png';
 
       if (author === username) {
         msgListTag.className = 'sent';
